@@ -85,11 +85,8 @@ function ShowMetadata(sampleId)
         panel.html('');
         
         Object.entries(result).forEach(([key,value]) => {
-
-            var textToShow = `SampleId = ${sampleId}`;
+            var textToShow = `${key}: ${value}`;
             panel.append('h6').text(textToShow);
-
-
         })
     
     })
