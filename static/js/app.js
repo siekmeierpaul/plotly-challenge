@@ -74,6 +74,47 @@ function DrawBargraph(sampleId)
     });
 }
 
+function DrawGauge(sampleId)
+{
+    console.log(`DrawGauge (${sampleId})`);        
+
+    d3.json('samples.json').then(data => {
+
+        var metadata = data.metadata;
+        var resultArray = metadata.filter(md => md.id == sampleId);
+        var result = resultArray[0];
+
+        var wfreq = result.wfreq;
+
+        var gaugeData = {
+            value: wfreq,
+            title: {text: 'Scrubs Per Week'},
+            mode: 'gauge',
+            type: 'indicator',
+            gauge: {
+                axis: {
+                    range: [null, 9]
+                },
+                bar: {color: 'green'},
+                steps: [
+                    {range: [0,3], color: 'lightgrey'},
+                    {range: [3,6], color: 'grey'},
+                    {range: [6,9], color: 'darkgrey'}
+                    ]
+            }
+        }
+
+        var gaugeLayout = {
+            title: 'Belly Button Washing Frequency',
+            height: 400,
+            width:400,
+            margin: { t: 200, b: 0 },
+        }
+
+        Plotly.newPlot('gauge', [gaugeData], gaugeLayout);
+    });
+}
+
 function ShowMetadata(sampleId)
 {
     console.log(`ShowMetadata(${sampleId})`)
@@ -91,7 +132,6 @@ function ShowMetadata(sampleId)
             var textToShow = `${key}: ${value}`;
             panel.append('h6').text(textToShow);
         })
-    
     })
 }
 
@@ -102,6 +142,7 @@ function optionChanged(sampleId)
     DrawBargraph(sampleId);
     DrawBubblechart(sampleId);
     ShowMetadata(sampleId);
+    DrawGauge(sampleId);
 }
 
 function InitDashboard()
@@ -128,6 +169,7 @@ function InitDashboard()
         DrawBargraph(sampleId);
         DrawBubblechart(sampleId);
         ShowMetadata(sampleId);
+        DrawGauge(sampleId);
     });
 }
 
