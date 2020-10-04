@@ -6,7 +6,36 @@ function DrawBubblechart(sampleId)
 {
     console.log(`DrawBubblechart (${sampleId})`);
 
+    d3.json('samples.json').then(data => {
 
+        var samples = data.samples;
+        var resultArray = samples.filter(s => s.id == sampleId);
+        var result = resultArray[0];
+
+        var otu_ids = result.otu_ids;
+        var otu_labels = result.otu_labels;
+        var sample_values = result.sample_values;
+
+        var bubbleData = {
+            x: otu_ids,
+            y: sample_values,
+            text: otu_labels,
+            mode: 'markers',
+            marker: {
+                size: sample_values,
+                color: otu_ids
+            }
+        }
+
+        var bubbleLayout = {
+            title: 'OTU',
+            showlegend: false,
+            height: 600,
+            width:900
+        }
+
+        Plotly.newPlot('bubble', [bubbleData], bubbleLayout);
+    });
 }
 
 function DrawBargraph(sampleId)
