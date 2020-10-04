@@ -24,14 +24,17 @@ function DrawBubblechart(sampleId)
             marker: {
                 size: sample_values,
                 color: otu_ids
-            }
+            },
+            type: 'scatter'
         }
 
         var bubbleLayout = {
-            title: 'OTU',
+            title: 'Belly Button Microbial Species',
             showlegend: false,
             height: 600,
-            width:900
+            width:900,
+            xaxis: {title: 'OTU IDs'},
+            yaxis: {title: 'Sample Values'}
         }
 
         Plotly.newPlot('bubble', [bubbleData], bubbleLayout);
